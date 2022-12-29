@@ -98,15 +98,32 @@ END OF TEMPLATE CODE
 
  *************************************************/
 
+fn check(c: char) -> bool {
+    if c == '1' || c == '4' {
+        return true;
+    }
+    return false;
+}
+
 fn main() {
     let stdout = io::stdout();
+    #[allow(unused_variables, unused_mut)]
     let mut out = std::io::BufWriter::new(stdout.lock());
     let mut sc = Scanner::new();
-    let size = sc.next::<usize>();
-    let position = sc.next::<usize>();
-    if position <= ((size + 1) / 2) {
-        writeln!(out, "{}", 2 * position - 1).ok();
+    let size = sc.string();
+    let mut answer = true;
+    if size.len() > 3 && size.contains("444") {
+        answer = false;
     } else {
-        writeln!(out, "{}", 2 * (position - ((size + 1) / 2))).ok();
+        for c in size.chars() {
+            if answer {
+                answer = check(c);
+            }
+        }
+    }
+    if answer && size.starts_with('1') {
+        println!("YES");
+    } else {
+        println!("NO");
     }
 }

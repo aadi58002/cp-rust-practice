@@ -1,4 +1,4 @@
-use std::io;
+use std::{io, process::exit};
 #[allow(unused_imports)]
 use std::io::Write;
 
@@ -98,15 +98,26 @@ END OF TEMPLATE CODE
 
  *************************************************/
 
+
 fn main() {
     let stdout = io::stdout();
+    #[allow(unused_variables, unused_mut)]
     let mut out = std::io::BufWriter::new(stdout.lock());
     let mut sc = Scanner::new();
-    let size = sc.next::<usize>();
-    let position = sc.next::<usize>();
-    if position <= ((size + 1) / 2) {
-        writeln!(out, "{}", 2 * position - 1).ok();
-    } else {
-        writeln!(out, "{}", 2 * (position - ((size + 1) / 2))).ok();
+    let num = sc.next::<usize>();
+    let mut fib = vec![0,1];
+    while num > fib[fib.len() - 1]{
+        fib.push(fib[fib.len() - 2] + fib[fib.len() - 1]);
     }
+    for i1 in &fib {
+        for i2 in &fib {
+            for i3 in &fib{
+                if i1+i2+i3 == num{
+                    println!("{i1} {i2} {i3}");
+                    exit(0);
+                }
+            }
+        }
+    }
+    println!("I'm too stupid to solve this problem");
 }

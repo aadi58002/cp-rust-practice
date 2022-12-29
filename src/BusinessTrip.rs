@@ -100,13 +100,25 @@ END OF TEMPLATE CODE
 
 fn main() {
     let stdout = io::stdout();
+    #[allow(unused_variables, unused_mut)]
     let mut out = std::io::BufWriter::new(stdout.lock());
     let mut sc = Scanner::new();
-    let size = sc.next::<usize>();
-    let position = sc.next::<usize>();
-    if position <= ((size + 1) / 2) {
-        writeln!(out, "{}", 2 * position - 1).ok();
+    let mut size = sc.next::<i128>();
+    let mut growth = sc.vec::<usize>(12);
+    growth.sort();
+    growth.reverse();
+    let mut count = 0;
+    for g in growth {
+        if size > 0 {
+            size -= g as i128;
+            count += 1;
+        } else {
+            break;
+        }
+    }
+    if size <= 0 {
+        println!("{}", count);
     } else {
-        writeln!(out, "{}", 2 * (position - ((size + 1) / 2))).ok();
+        println!("-1");
     }
 }

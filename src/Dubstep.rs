@@ -100,13 +100,14 @@ END OF TEMPLATE CODE
 
 fn main() {
     let stdout = io::stdout();
+    #[allow(unused_variables, unused_mut)]
     let mut out = std::io::BufWriter::new(stdout.lock());
     let mut sc = Scanner::new();
-    let size = sc.next::<usize>();
-    let position = sc.next::<usize>();
-    if position <= ((size + 1) / 2) {
-        writeln!(out, "{}", 2 * position - 1).ok();
-    } else {
-        writeln!(out, "{}", 2 * (position - ((size + 1) / 2))).ok();
+    let input = sc.string();
+    let word = input.split("WUB");
+    for i in word {
+        if !i.is_empty() {
+            write!(out, "{} ", i).ok();
+        }
     }
 }

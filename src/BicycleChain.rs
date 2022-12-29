@@ -100,13 +100,27 @@ END OF TEMPLATE CODE
 
 fn main() {
     let stdout = io::stdout();
+    #[allow(unused_variables, unused_mut)]
     let mut out = std::io::BufWriter::new(stdout.lock());
     let mut sc = Scanner::new();
-    let size = sc.next::<usize>();
-    let position = sc.next::<usize>();
-    if position <= ((size + 1) / 2) {
-        writeln!(out, "{}", 2 * position - 1).ok();
-    } else {
-        writeln!(out, "{}", 2 * (position - ((size + 1) / 2))).ok();
+    let n = sc.next::<usize>();
+    let a: Vec<usize> = sc.vec(n);
+    let m = sc.next::<usize>();
+    let b: Vec<usize> = sc.vec(m);
+    let mut int_gears: Vec<usize> = Vec::new();
+    for ai in a {
+        for bi in b.iter() {
+            if bi % ai == 0 {
+                int_gears.push(bi / ai);
+            }
+        }
     }
+    let mut count = 0;
+    let max = *int_gears.iter().max().unwrap();
+    for gear in int_gears {
+        if gear == max {
+            count += 1;
+        }
+    }
+    println!("{}",count);
 }

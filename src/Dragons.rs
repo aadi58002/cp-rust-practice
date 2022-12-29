@@ -98,15 +98,32 @@ END OF TEMPLATE CODE
 
  *************************************************/
 
+
 fn main() {
     let stdout = io::stdout();
+    #[allow(unused_variables, unused_mut)]
     let mut out = std::io::BufWriter::new(stdout.lock());
     let mut sc = Scanner::new();
+    let mut s = sc.next::<usize>();
     let size = sc.next::<usize>();
-    let position = sc.next::<usize>();
-    if position <= ((size + 1) / 2) {
-        writeln!(out, "{}", 2 * position - 1).ok();
-    } else {
-        writeln!(out, "{}", 2 * (position - ((size + 1) / 2))).ok();
+    let mut dragons = Vec::new();
+    for _ in 0..size{
+        dragons.push((sc.next::<usize>(),sc.next::<usize>()));
     }
+    dragons.sort_by(|(a,_),(b,_)| a.cmp(b));
+    let mut success = true;
+    for drag in dragons{
+        if s > drag.0 {
+            s += drag.1;
+        } else {
+            success = false;
+            break;
+        }
+    }
+    if success {
+        println!("YES");
+    }else{
+        println!("NO");
+    }
+
 }

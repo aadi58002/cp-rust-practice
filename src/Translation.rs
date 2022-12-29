@@ -100,13 +100,14 @@ END OF TEMPLATE CODE
 
 fn main() {
     let stdout = io::stdout();
+    #[allow(unused_variables, unused_mut)]
     let mut out = std::io::BufWriter::new(stdout.lock());
     let mut sc = Scanner::new();
-    let size = sc.next::<usize>();
-    let position = sc.next::<usize>();
-    if position <= ((size + 1) / 2) {
-        writeln!(out, "{}", 2 * position - 1).ok();
+    let main: Vec<char> = sc.string().chars().rev().collect();
+    let rev: Vec<char> = sc.string().chars().collect();
+    if main == rev {
+        println!("YES");
     } else {
-        writeln!(out, "{}", 2 * (position - ((size + 1) / 2))).ok();
+        println!("NO");
     }
 }

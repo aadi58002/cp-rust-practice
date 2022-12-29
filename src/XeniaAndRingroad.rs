@@ -100,13 +100,20 @@ END OF TEMPLATE CODE
 
 fn main() {
     let stdout = io::stdout();
+    #[allow(unused_variables, unused_mut)]
     let mut out = std::io::BufWriter::new(stdout.lock());
     let mut sc = Scanner::new();
-    let size = sc.next::<usize>();
-    let position = sc.next::<usize>();
-    if position <= ((size + 1) / 2) {
-        writeln!(out, "{}", 2 * position - 1).ok();
-    } else {
-        writeln!(out, "{}", 2 * (position - ((size + 1) / 2))).ok();
+    let ring = sc.next::<usize>();
+    let count = sc.next::<usize>();
+    let steps = sc.vec::<usize>(count);
+    let mut time = steps[0] - 1;
+    for i in 0..(steps.len() - 1) {
+        if steps[i] < steps[i + 1] {
+            time += steps[i + 1] - steps[i];
+        }
+        if steps[i] > steps[i + 1] {
+            time += ring - (steps[i] - steps[i + 1]);
+        }
     }
+    println!("{time}");
 }

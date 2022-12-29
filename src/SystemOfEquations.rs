@@ -98,15 +98,22 @@ END OF TEMPLATE CODE
 
  *************************************************/
 
+
 fn main() {
     let stdout = io::stdout();
+    #[allow(unused_variables, unused_mut)]
     let mut out = std::io::BufWriter::new(stdout.lock());
     let mut sc = Scanner::new();
-    let size = sc.next::<usize>();
-    let position = sc.next::<usize>();
-    if position <= ((size + 1) / 2) {
-        writeln!(out, "{}", 2 * position - 1).ok();
-    } else {
-        writeln!(out, "{}", 2 * (position - ((size + 1) / 2))).ok();
+    let eq1 = sc.next::<usize>();
+    let eq2 = sc.next::<usize>();
+    let mut count =0;
+    for i in 0..=eq1{
+        for j in 0..=eq2{
+            if i*i + j == eq1 && i + j*j == eq2{
+                count += 1;
+            }
+        }
     }
+    println!("{}",count);
+
 }
