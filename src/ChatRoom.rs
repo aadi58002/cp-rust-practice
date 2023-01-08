@@ -104,6 +104,20 @@ fn main() {
     #[allow(unused_variables, unused_mut)]
     let mut out = std::io::BufWriter::new(stdout.lock());
     let mut sc = Scanner::new();
-    let size = sc.next::<usize>();
-
+    let ques = sc.string();
+    let hello = vec!['h','e','l','l','o'];
+    let mut count = 0;
+    for c in ques.chars(){
+        if hello[count] == c{
+            count += 1;
+            if count == 5{
+                break;
+            }
+        }
+    }
+    if count == 5{
+        println!("YES");
+    }else{
+        println!("NO");
+    }
 }

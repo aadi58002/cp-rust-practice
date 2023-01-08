@@ -98,12 +98,31 @@ END OF TEMPLATE CODE
 
  *************************************************/
 
-
 fn main() {
     let stdout = io::stdout();
     #[allow(unused_variables, unused_mut)]
     let mut out = std::io::BufWriter::new(stdout.lock());
     let mut sc = Scanner::new();
     let size = sc.next::<usize>();
-
+    for _ in 0..size {
+        let (n, m) = (sc.next::<usize>(), sc.next::<usize>());
+        let mut a = sc.vec::<usize>(n);
+        let b = sc.vec::<usize>(m);
+        a.sort();
+        for ele in b{
+            let mut swap = false;
+            for main in a.iter_mut(){
+                if ele > *main{
+                    *main = ele;
+                    swap = true;
+                    break;
+                }
+            }
+            if !swap{
+                a[0]=ele;
+            }
+            a.sort();
+        }
+        println!("{}",a.iter().sum::<usize>());
+    }
 }

@@ -98,12 +98,20 @@ END OF TEMPLATE CODE
 
  *************************************************/
 
-
 fn main() {
     let stdout = io::stdout();
     #[allow(unused_variables, unused_mut)]
     let mut out = std::io::BufWriter::new(stdout.lock());
     let mut sc = Scanner::new();
-    let size = sc.next::<usize>();
-
+    let (n, m) = (sc.next::<usize>(), sc.next::<usize>());
+    let mut puzzles = sc.vec::<usize>(m);
+    puzzles.sort();
+    let mut min = puzzles[n - 1] - puzzles[0];
+    for i in 1..=(m - n) {
+        let diff = puzzles[i + n - 1] - puzzles[i];
+        if diff < min {
+            min = diff;
+        }
+    }
+    println!("{min}");
 }

@@ -98,12 +98,32 @@ END OF TEMPLATE CODE
 
  *************************************************/
 
-
 fn main() {
     let stdout = io::stdout();
     #[allow(unused_variables, unused_mut)]
     let mut out = std::io::BufWriter::new(stdout.lock());
     let mut sc = Scanner::new();
-    let size = sc.next::<usize>();
-
+    let people = sc.next::<usize>();
+    let plane_count = sc.next::<usize>();
+    let mut plane_seats = sc.vec::<usize>(plane_count);
+    let mut second_seats = plane_seats.clone();
+    let (mut min, mut max) = (0, 0);
+    let mut count = 0;
+    while count < people{
+        let val = plane_seats.iter_mut().max().unwrap();
+        max += *val;
+        *val -= 1;
+        count += 1;
+    }
+    count = 0;
+    while count < people{
+        let val = second_seats.iter_mut().min().unwrap();
+        min += *val;
+        *val -= 1;
+        if *val == 0{
+            *val = usize::MAX;
+        }
+        count += 1;
+    }
+    println!("{max} {min}");
 }

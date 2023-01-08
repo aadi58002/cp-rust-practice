@@ -98,12 +98,25 @@ END OF TEMPLATE CODE
 
  *************************************************/
 
-
 fn main() {
     let stdout = io::stdout();
     #[allow(unused_variables, unused_mut)]
     let mut out = std::io::BufWriter::new(stdout.lock());
     let mut sc = Scanner::new();
     let size = sc.next::<usize>();
-
+    let (mut count100, mut count200) = (0, 0);
+    for _ in 0..size {
+        let temp = sc.next::<usize>();
+        if temp == 100 {
+            count100 += 1;
+        } else {
+            count200 += 1;
+        }
+    }
+    if count100 % 2 == 0 && size != 1 && (count200 % 2 == 0 || (count200 % 2 == 1 && count100 >= 2))
+    {
+        println!("YES")
+    } else {
+        println!("NO");
+    }
 }

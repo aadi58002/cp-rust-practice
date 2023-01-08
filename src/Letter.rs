@@ -1,4 +1,4 @@
-use std::io;
+use std::{io::{self, BufRead}, collections::HashMap};
 #[allow(unused_imports)]
 use std::io::Write;
 
@@ -103,7 +103,32 @@ fn main() {
     let stdout = io::stdout();
     #[allow(unused_variables, unused_mut)]
     let mut out = std::io::BufWriter::new(stdout.lock());
-    let mut sc = Scanner::new();
-    let size = sc.next::<usize>();
-
+    let mut stdin = io::stdin().lock().lines().map(|l| l.unwrap());
+    let s1= stdin.next().unwrap().replace(" ","");
+    let s2= stdin.next().unwrap().replace(" ","");
+    let mut count_s1: HashMap<char, usize> = HashMap::new();
+    let mut count_s2: HashMap<char, usize> = HashMap::new();
+    for c in s1.chars(){
+        *count_s1.entry(c).or_insert(0) +=1;
+    }
+    for c in s2.chars(){
+        *count_s2.entry(c).or_insert(0) +=1;
+    }
+    let mut ans = true;
+    for  val1 in count_s2{
+        if let Some(val2) = count_s1.get(&val1.0){
+            if val1.1 > *val2 && val1.0 != ' '{
+                ans = false;
+                break;
+            }
+        }else{
+            ans=false;
+            break;
+        }
+    }
+    if ans {
+        println!("YES")
+    }else{
+        println!("NO");
+    }
 }

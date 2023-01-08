@@ -98,12 +98,24 @@ END OF TEMPLATE CODE
 
  *************************************************/
 
-
 fn main() {
     let stdout = io::stdout();
     #[allow(unused_variables, unused_mut)]
     let mut out = std::io::BufWriter::new(stdout.lock());
     let mut sc = Scanner::new();
     let size = sc.next::<usize>();
-
+    for _ in 0..size {
+        let (n, _) = (sc.next::<usize>(), sc.next::<usize>());
+        let mut ans = Vec::new();
+        for i in 1..=((n + 1) / 2) {
+            ans.push(n - i + 1);
+            if n - i + 1 != i {
+                ans.push(i);
+            }
+        }
+        for ele in ans{
+            print!("{} ",ele);
+        }
+        println!("");
+    }
 }

@@ -104,6 +104,16 @@ fn main() {
     #[allow(unused_variables, unused_mut)]
     let mut out = std::io::BufWriter::new(stdout.lock());
     let mut sc = Scanner::new();
-    let size = sc.next::<usize>();
+    let question = sc.string().to_lowercase();
+    let mut answer = String::new();
+    for c in question.chars(){
+        match c {
+            'a' | 'o' | 'y' | 'e' | 'u' | 'i' => {}
+            _ => {
+                answer.push_str(&format!(".{c}"));
+            }
+        }
+    }
+    println!("{answer}");
 
 }

@@ -98,12 +98,36 @@ END OF TEMPLATE CODE
 
  *************************************************/
 
-
 fn main() {
     let stdout = io::stdout();
     #[allow(unused_variables, unused_mut)]
     let mut out = std::io::BufWriter::new(stdout.lock());
     let mut sc = Scanner::new();
     let size = sc.next::<usize>();
-
+    for j in 0..=size {
+        let mut ans = String::new();
+        for _ in 0..(size - j) {
+            ans.push_str(&"  ");
+        }
+        for i in 0..=j {
+            ans.push_str(&format!("{} ",i));
+        }
+        for i in (0..j).rev() {
+            ans.push_str(&format!("{} ",i));
+        }
+        println!("{}",ans.trim_end());
+    }
+    for j in (0..size).rev() {
+        let mut ans = String::new();
+        for _ in 0..(size - j) {
+            ans.push_str(&"  ");
+        }
+        for i in 0..=j {
+            ans.push_str(&format!("{} ",i));
+        }
+        for i in (0..j).rev() {
+            ans.push_str(&format!("{} ",i));
+        }
+        println!("{}",ans.trim_end());
+    }
 }

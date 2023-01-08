@@ -105,5 +105,8 @@ fn main() {
     let mut out = std::io::BufWriter::new(stdout.lock());
     let mut sc = Scanner::new();
     let size = sc.next::<usize>();
-
+    print!("{size} ");
+    for i in 1..size{
+        print!("{i} ");
+    }
 }
