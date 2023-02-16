@@ -102,29 +102,18 @@ END OF TEMPLATE CODE
 
  *************************************************/
 
+
 fn main() {
     let stdout = io::stdout();
     #[allow(unused_variables, unused_mut)]
     let mut out = std::io::BufWriter::new(stdout.lock());
     let mut sc = Scanner::new();
-    let size = sc.next::<usize>();
-    let sol: Vec<usize> = sc.vec(size);
-    let mut max = (0 as usize, -1 as i32);
-    let mut min = (std::i32::MAX as usize, -1 as i32);
-    for (pos, ele) in sol.iter().enumerate() {
-        if max.0 < *ele {
-            max = (*ele, pos as i32);
-        }
-        if min.0 >= *ele {
-            min = (*ele, pos as i32);
-        }
+    let sum = sc.next::<usize>();
+    match sum{
+        0..=10 => println!("0"),
+        11..=19 => println!("4"),
+        20 => println!("15"),
+        21 => println!("4"),
+        _ => println!("0"),
     }
-    println!(
-        "{}",
-        if min.1 < max.1 {
-            (size as i32 - min.1 - 1) + max.1 - 1
-        } else {
-            (size as i32 - min.1 - 1) + max.1
-        }
-    );
 }

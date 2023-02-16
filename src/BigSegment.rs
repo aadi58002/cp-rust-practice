@@ -8,6 +8,21 @@ START OF TEMPLATE CODE
 
  *************************************************/
 #[allow(dead_code)]
+#[allow(unused_macros)]
+macro_rules! dbg {
+    ($first_val:expr, $($val:expr),+ $(,)?) => {
+        eprint!("[{}:{}] {} = {:?}",
+                file!(), line!(), stringify!($first_val), &$first_val);
+        ($(eprint!(", {} = {:?}", stringify!($val), &$val)),+,);
+        eprintln!();
+    };
+    ($first_val:expr) => {
+        eprintln!("[{}:{}] {} = {:?}",
+                  file!(), line!(), stringify!($first_val), &$first_val);
+    };
+}
+
+#[allow(dead_code)]
 enum InputSource {
     Stdin,
     FromFile(Vec<String>),
@@ -16,25 +31,6 @@ enum InputSource {
 struct Scanner {
     buffer: Vec<String>,
     input_source: InputSource,
-}
-
-#[allow(dead_code)]
-fn permute(nums: &mut Vec<usize>) -> Vec<Vec<usize>> {
-    if nums.len() == 1 {
-        return vec![nums.clone()];
-    } else {
-        let mut permutation = Vec::new();
-        for i in 0..nums.len() {
-            let mut remaining = nums[..i].to_vec();
-            remaining.extend_from_slice(&nums[i + 1..]);
-            let perms = permute(&mut remaining);
-            for mut perm in perms {
-                perm.insert(0, nums[i]);
-                permutation.push(perm);
-            }
-        }
-        return permutation;
-    }
 }
 
 impl Scanner {
@@ -102,29 +98,35 @@ END OF TEMPLATE CODE
 
  *************************************************/
 
+
 fn main() {
     let stdout = io::stdout();
     #[allow(unused_variables, unused_mut)]
     let mut out = std::io::BufWriter::new(stdout.lock());
     let mut sc = Scanner::new();
     let size = sc.next::<usize>();
-    let sol: Vec<usize> = sc.vec(size);
-    let mut max = (0 as usize, -1 as i32);
-    let mut min = (std::i32::MAX as usize, -1 as i32);
-    for (pos, ele) in sol.iter().enumerate() {
-        if max.0 < *ele {
-            max = (*ele, pos as i32);
+    let (mut min,mut max) = (std::usize::MAX,0);
+    let mut numbers: Vec<(usize,usize)> = Vec::new();
+    for _ in 0..size{
+        let (in1,in2) = (sc.next::<usize>(),sc.next::<usize>());
+        numbers.push((in1,in2));
+        if in1 < min{
+            min = in1;
         }
-        if min.0 >= *ele {
-            min = (*ele, pos as i32);
+        if in2 > max{
+            max = in2;
         }
     }
-    println!(
-        "{}",
-        if min.1 < max.1 {
-            (size as i32 - min.1 - 1) + max.1 - 1
-        } else {
-            (size as i32 - min.1 - 1) + max.1
+    let mut ans: i128 = -1;
+    for ele in numbers.iter().enumerate(){
+        if ele.1.0 <= min && ele.1.1 >= max{
+            ans = ele.0 as i128;
+            break;
         }
-    );
+    }
+    if ans != -1{
+        println!("{}",ans+1);
+    }else{
+        println!("-1");
+    }
 }

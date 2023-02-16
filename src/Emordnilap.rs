@@ -102,29 +102,29 @@ END OF TEMPLATE CODE
 
  *************************************************/
 
+const MOD: u128 = 1000_000_007;
+
+fn fac(num: u128) -> u128 {
+    if num == 1 || num == 0 {
+        return 1;
+    } else {
+        return ((fac(num - 1) % MOD) * num) % MOD;
+    }
+}
+
 fn main() {
     let stdout = io::stdout();
     #[allow(unused_variables, unused_mut)]
     let mut out = std::io::BufWriter::new(stdout.lock());
     let mut sc = Scanner::new();
-    let size = sc.next::<usize>();
-    let sol: Vec<usize> = sc.vec(size);
-    let mut max = (0 as usize, -1 as i32);
-    let mut min = (std::i32::MAX as usize, -1 as i32);
-    for (pos, ele) in sol.iter().enumerate() {
-        if max.0 < *ele {
-            max = (*ele, pos as i32);
-        }
-        if min.0 >= *ele {
-            min = (*ele, pos as i32);
-        }
+    let size = sc.next::<u128>();
+    for _ in 0..size {
+        let num = sc.next::<u128>();
+        writeln!(
+            out,
+            "{}",
+            (((num * (num - 1)) % MOD) * (fac(num)) % MOD) % MOD
+        )
+        .ok();
     }
-    println!(
-        "{}",
-        if min.1 < max.1 {
-            (size as i32 - min.1 - 1) + max.1 - 1
-        } else {
-            (size as i32 - min.1 - 1) + max.1
-        }
-    );
 }

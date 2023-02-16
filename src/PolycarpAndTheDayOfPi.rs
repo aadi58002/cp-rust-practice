@@ -108,23 +108,13 @@ fn main() {
     let mut out = std::io::BufWriter::new(stdout.lock());
     let mut sc = Scanner::new();
     let size = sc.next::<usize>();
-    let sol: Vec<usize> = sc.vec(size);
-    let mut max = (0 as usize, -1 as i32);
-    let mut min = (std::i32::MAX as usize, -1 as i32);
-    for (pos, ele) in sol.iter().enumerate() {
-        if max.0 < *ele {
-            max = (*ele, pos as i32);
+    for _ in 0..size {
+        let n: Vec<char> = sc.next::<String>().chars().collect();
+        let pi: Vec<char> = 314159265358979323846264338327i128.to_string().chars().collect();
+        let mut count = 0;
+        while count < n.len() && n[count] == pi[count]{
+            count +=1;
         }
-        if min.0 >= *ele {
-            min = (*ele, pos as i32);
-        }
+        println!("{count}");
     }
-    println!(
-        "{}",
-        if min.1 < max.1 {
-            (size as i32 - min.1 - 1) + max.1 - 1
-        } else {
-            (size as i32 - min.1 - 1) + max.1
-        }
-    );
 }

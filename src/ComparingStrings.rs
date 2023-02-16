@@ -8,6 +8,21 @@ START OF TEMPLATE CODE
 
  *************************************************/
 #[allow(dead_code)]
+#[allow(unused_macros)]
+macro_rules! dbg {
+    ($first_val:expr, $($val:expr),+ $(,)?) => {
+        eprint!("[{}:{}] {} = {:?}",
+                file!(), line!(), stringify!($first_val), &$first_val);
+        ($(eprint!(", {} = {:?}", stringify!($val), &$val)),+,);
+        eprintln!();
+    };
+    ($first_val:expr) => {
+        eprintln!("[{}:{}] {} = {:?}",
+                  file!(), line!(), stringify!($first_val), &$first_val);
+    };
+}
+
+#[allow(dead_code)]
 enum InputSource {
     Stdin,
     FromFile(Vec<String>),
@@ -16,25 +31,6 @@ enum InputSource {
 struct Scanner {
     buffer: Vec<String>,
     input_source: InputSource,
-}
-
-#[allow(dead_code)]
-fn permute(nums: &mut Vec<usize>) -> Vec<Vec<usize>> {
-    if nums.len() == 1 {
-        return vec![nums.clone()];
-    } else {
-        let mut permutation = Vec::new();
-        for i in 0..nums.len() {
-            let mut remaining = nums[..i].to_vec();
-            remaining.extend_from_slice(&nums[i + 1..]);
-            let perms = permute(&mut remaining);
-            for mut perm in perms {
-                perm.insert(0, nums[i]);
-                permutation.push(perm);
-            }
-        }
-        return permutation;
-    }
 }
 
 impl Scanner {
@@ -107,24 +103,27 @@ fn main() {
     #[allow(unused_variables, unused_mut)]
     let mut out = std::io::BufWriter::new(stdout.lock());
     let mut sc = Scanner::new();
-    let size = sc.next::<usize>();
-    let sol: Vec<usize> = sc.vec(size);
-    let mut max = (0 as usize, -1 as i32);
-    let mut min = (std::i32::MAX as usize, -1 as i32);
-    for (pos, ele) in sol.iter().enumerate() {
-        if max.0 < *ele {
-            max = (*ele, pos as i32);
-        }
-        if min.0 >= *ele {
-            min = (*ele, pos as i32);
+    let s1 = sc.string();
+    let s2 = sc.string();
+    let (mut p1, mut p2) = (0, 0);
+    let mut flag = 0;
+    let mut s1c: Vec<char> = s1.chars().collect();
+    for (c1, c2) in s1c.iter().enumerate().zip(s2.chars()) {
+        if *c1.1 != c2 && flag == 0 {
+            p1 = c1.0;
+            flag += 1;
+        } else if *c1.1 != c2 && flag == 1 {
+            p2 = c1.0;
         }
     }
-    println!(
-        "{}",
-        if min.1 < max.1 {
-            (size as i32 - min.1 - 1) + max.1 - 1
-        } else {
-            (size as i32 - min.1 - 1) + max.1
-        }
-    );
+    s1c.swap(p2, p1);
+    let mut quest = String::new();
+    for ch in s1c {
+        quest.push(ch);
+    }
+    if quest == s2 {
+        println!("YES");
+    } else {
+        println!("NO");
+    }
 }

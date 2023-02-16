@@ -108,23 +108,23 @@ fn main() {
     let mut out = std::io::BufWriter::new(stdout.lock());
     let mut sc = Scanner::new();
     let size = sc.next::<usize>();
-    let sol: Vec<usize> = sc.vec(size);
-    let mut max = (0 as usize, -1 as i32);
-    let mut min = (std::i32::MAX as usize, -1 as i32);
-    for (pos, ele) in sol.iter().enumerate() {
-        if max.0 < *ele {
-            max = (*ele, pos as i32);
+    for _ in 0..size {
+        let (n, s, r) = (sc.next::<usize>(), sc.next::<usize>(), sc.next::<usize>());
+        let mut dice = vec![0; n];
+        dice[n - 1] = s - r;
+        let mut to_dis = r;
+        let mut index = 0;
+        while to_dis != 0 {
+            let val = index % (n - 1);
+            if dice[val] < dice[n - 1] {
+                dice[val] += 1;
+            }
+            index += 1;
+            to_dis -= 1;
         }
-        if min.0 >= *ele {
-            min = (*ele, pos as i32);
+        for ele in dice {
+            print!("{} ", ele);
         }
+        println!("");
     }
-    println!(
-        "{}",
-        if min.1 < max.1 {
-            (size as i32 - min.1 - 1) + max.1 - 1
-        } else {
-            (size as i32 - min.1 - 1) + max.1
-        }
-    );
 }

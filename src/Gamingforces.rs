@@ -102,29 +102,25 @@ END OF TEMPLATE CODE
 
  *************************************************/
 
+
 fn main() {
     let stdout = io::stdout();
     #[allow(unused_variables, unused_mut)]
     let mut out = std::io::BufWriter::new(stdout.lock());
     let mut sc = Scanner::new();
     let size = sc.next::<usize>();
-    let sol: Vec<usize> = sc.vec(size);
-    let mut max = (0 as usize, -1 as i32);
-    let mut min = (std::i32::MAX as usize, -1 as i32);
-    for (pos, ele) in sol.iter().enumerate() {
-        if max.0 < *ele {
-            max = (*ele, pos as i32);
+    for _ in 0..size{
+        let input = sc.next::<usize>();
+        let health = sc.vec::<usize>(input);
+        let mut count_1 = 0;
+        let mut count_else = 0;
+        for ele in health{
+            if ele == 1{
+                count_1 += 1;
+            }else{
+                count_else += 1;
+            }
         }
-        if min.0 >= *ele {
-            min = (*ele, pos as i32);
-        }
+        println!("{}",count_1/2 + count_1%2 +count_else);
     }
-    println!(
-        "{}",
-        if min.1 < max.1 {
-            (size as i32 - min.1 - 1) + max.1 - 1
-        } else {
-            (size as i32 - min.1 - 1) + max.1
-        }
-    );
 }

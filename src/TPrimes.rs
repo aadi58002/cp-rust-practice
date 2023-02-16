@@ -1,4 +1,3 @@
-use std::io;
 #[allow(unused_imports)]
 use std::io::Write;
 
@@ -103,28 +102,32 @@ END OF TEMPLATE CODE
  *************************************************/
 
 fn main() {
-    let stdout = io::stdout();
+    let stdout = std::io::stdout();
     #[allow(unused_variables, unused_mut)]
     let mut out = std::io::BufWriter::new(stdout.lock());
     let mut sc = Scanner::new();
     let size = sc.next::<usize>();
-    let sol: Vec<usize> = sc.vec(size);
-    let mut max = (0 as usize, -1 as i32);
-    let mut min = (std::i32::MAX as usize, -1 as i32);
-    for (pos, ele) in sol.iter().enumerate() {
-        if max.0 < *ele {
-            max = (*ele, pos as i32);
+    let nums: Vec<usize> = sc.vec(size);
+    let mut prime = [0; 1000_001];
+    prime[1] = 1;
+    let (mut index, mut mul) = (2, 2);
+    while index <= 1000 {
+        while index * mul <= 1000_000 {
+            prime[index * mul] = 1;
+            mul += 1;
         }
-        if min.0 >= *ele {
-            min = (*ele, pos as i32);
-        }
+        mul = 2;
+        index += 1;
     }
-    println!(
-        "{}",
-        if min.1 < max.1 {
-            (size as i32 - min.1 - 1) + max.1 - 1
-        } else {
-            (size as i32 - min.1 - 1) + max.1
-        }
-    );
+    for num in nums {
+        let sq = (num as f64).sqrt();
+        println!(
+            "{}",
+            if sq.fract() == 0.0 && prime[sq as usize] == 0 {
+                "YES"
+            } else {
+                "NO"
+            }
+        )
+    }
 }

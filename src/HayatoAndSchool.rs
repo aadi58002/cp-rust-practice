@@ -102,29 +102,39 @@ END OF TEMPLATE CODE
 
  *************************************************/
 
+
 fn main() {
     let stdout = io::stdout();
     #[allow(unused_variables, unused_mut)]
     let mut out = std::io::BufWriter::new(stdout.lock());
     let mut sc = Scanner::new();
     let size = sc.next::<usize>();
-    let sol: Vec<usize> = sc.vec(size);
-    let mut max = (0 as usize, -1 as i32);
-    let mut min = (std::i32::MAX as usize, -1 as i32);
-    for (pos, ele) in sol.iter().enumerate() {
-        if max.0 < *ele {
-            max = (*ele, pos as i32);
-        }
-        if min.0 >= *ele {
-            min = (*ele, pos as i32);
+    for _ in 0..size{
+        let n = sc.next::<usize>();
+        let input = sc.vec::<usize>(n);
+        let mut even = Vec::new();
+        let mut odd = Vec::new();
+        for (index,ele) in input.iter().enumerate(){
+            if *ele % 2 == 1{
+                odd.push(index);
+                if odd.len() == 3{
+                    break;
+                }
+            }else{
+                even.push(index);
+                if even.len() >= 2 && odd.len() >= 1{
+                    break;
+                }
+            }
+        };
+        if odd.len() == 3 {
+            println!("YES");
+            println!("{} {} {}",odd[0]+1,odd[1]+1,odd[2]+1);
+        } else if odd.len() >= 1 && even.len() >= 2{
+            println!("YES");
+            println!("{} {} {}",odd[0]+1,even[0]+1,even[1]+1);
+        } else{
+            println!("NO");
         }
     }
-    println!(
-        "{}",
-        if min.1 < max.1 {
-            (size as i32 - min.1 - 1) + max.1 - 1
-        } else {
-            (size as i32 - min.1 - 1) + max.1
-        }
-    );
 }

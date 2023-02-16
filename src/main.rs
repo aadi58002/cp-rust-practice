@@ -8,21 +8,6 @@ START OF TEMPLATE CODE
 
  *************************************************/
 #[allow(dead_code)]
-#[allow(unused_macros)]
-macro_rules! dbg {
-    ($first_val:expr, $($val:expr),+ $(,)?) => {
-        eprint!("[{}:{}] {} = {:?}",
-                file!(), line!(), stringify!($first_val), &$first_val);
-        ($(eprint!(", {} = {:?}", stringify!($val), &$val)),+,);
-        eprintln!();
-    };
-    ($first_val:expr) => {
-        eprintln!("[{}:{}] {} = {:?}",
-                  file!(), line!(), stringify!($first_val), &$first_val);
-    };
-}
-
-#[allow(dead_code)]
 enum InputSource {
     Stdin,
     FromFile(Vec<String>),
@@ -31,6 +16,27 @@ enum InputSource {
 struct Scanner {
     buffer: Vec<String>,
     input_source: InputSource,
+}
+
+#[allow(dead_code)]
+fn next_permutation(nums: &mut Vec<usize>) -> bool {
+    if nums.len() < 2 {
+        return false;
+    }
+    let mut i = nums.len() - 1;
+    while i > 0 && nums[i - 1] >= nums[i] {
+        i -= 1;
+    }
+    if i == 0 {
+        return false;
+    }
+    let mut j = nums.len() - 1;
+    while j >= i && nums[j] <= nums[i - 1] {
+        j -= 1;
+    }
+    nums.swap(j, i - 1);
+    nums[i..].reverse();
+    true
 }
 
 impl Scanner {
@@ -98,12 +104,23 @@ END OF TEMPLATE CODE
 
  *************************************************/
 
-
 fn main() {
     let stdout = io::stdout();
     #[allow(unused_variables, unused_mut)]
     let mut out = std::io::BufWriter::new(stdout.lock());
     let mut sc = Scanner::new();
     let size = sc.next::<usize>();
-
+    for _ in 0..size {
+        let input = sc.next::<usize>();
+        let mut steps = sc.vec::<usize>(input);
+        steps.sort();
+        if steps.len() >= 3 {
+            println!(
+                "{}",
+                (steps[steps.len() - 1].min(steps[steps.len() - 2]) - 1).min(steps.len() - 2)
+            );
+        } else {
+            println!("0");
+        }
+    }
 }
